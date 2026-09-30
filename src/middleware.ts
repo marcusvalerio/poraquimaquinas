@@ -1,5 +1,11 @@
+import NextAuth from "next-auth";
 import { NextResponse } from "next/server";
-import { auth } from "@/lib/auth";
+import { authConfig } from "@/lib/auth.config";
+
+// Runs on the default (Edge) middleware runtime: it only verifies the JWT
+// cookie, so it uses the edge-safe config without Prisma/bcrypt. Every admin
+// page and mutation also re-checks the session on the server (requireAdmin).
+const { auth } = NextAuth(authConfig);
 
 // Only the admin area is protected; /equipamento/{qr} stays public.
 export default auth((req) => {
@@ -12,6 +18,5 @@ export default auth((req) => {
 });
 
 export const config = {
-  runtime: "nodejs",
   matcher: ["/admin/:path*"],
 };

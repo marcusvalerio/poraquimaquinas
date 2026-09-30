@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import { ImagePlus } from "lucide-react";
 
 const ACCEPTED_TYPES = ["image/jpeg", "image/png", "image/webp"];
-const MAX_SIZE = 8 * 1024 * 1024;
+const MAX_SIZE = 4 * 1024 * 1024;
 
 export function ImageField({
   initialImageUrl,
@@ -28,7 +28,7 @@ export function ImageField({
       return;
     }
     if (file.size > MAX_SIZE) {
-      setError("A imagem deve ter no máximo 8MB.");
+      setError("A imagem deve ter no máximo 4MB.");
       return;
     }
 
@@ -107,7 +107,7 @@ export function ImageField({
           >
             <ImagePlus size={20} aria-hidden="true" />
             <span className="font-sans text-sm font-semibold">+ Adicionar imagem</span>
-            <span className="font-aux text-[11px] uppercase tracking-wide text-black/40">JPG, PNG ou WEBP · até 8MB</span>
+            <span className="font-aux text-[11px] uppercase tracking-wide text-black/40">JPG, PNG ou WEBP · até 4MB</span>
           </button>
         )}
       </div>
