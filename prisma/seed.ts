@@ -1,6 +1,13 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 
+// Load .env when present (the Prisma CLI does this, a plain tsx script does not).
+try {
+  process.loadEnvFile();
+} catch {
+  // No .env file: rely on variables already set in the shell.
+}
+
 const db = new PrismaClient();
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL;

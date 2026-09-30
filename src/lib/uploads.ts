@@ -3,7 +3,9 @@ import { mkdir, writeFile } from "fs/promises";
 import path from "path";
 import { EQUIPMENT_PHOTO_PREFIX, deleteObject, isStorageConfigured, uploadObject } from "@/lib/storage";
 
-const MAX_SIZE = 8 * 1024 * 1024;
+// Vercel Functions reject request bodies above 4.5MB, so the photo (plus the
+// form fields sent with it) must stay below that.
+const MAX_SIZE = 4 * 1024 * 1024;
 
 const EXTENSIONS: Record<string, string> = {
   "image/jpeg": "jpg",
@@ -37,7 +39,7 @@ function matchesImageSignature(type: string, bytes: Buffer): boolean {
 export async function saveEquipmentPhoto(file: File): Promise<string> {
   const extension = EXTENSIONS[file.type];
   if (!extension) throw new Error("Formato de imagem não suportado. Use JPG, PNG ou WEBP.");
-  if (file.size > MAX_SIZE) throw new Error("Imagem excede o tamanho máximo de 8MB.");
+  if (file.size > MAX_SIZE) throw new Error("Imagem excede o tamanho máximo de 4MB.");
 
   const buffer = Buffer.from(await file.arrayBuffer());
   if (!matchesImageSignature(file.type, buffer)) {
