@@ -31,7 +31,7 @@ function matchesImageSignature(type: string, bytes: Buffer): boolean {
 
 /**
  * Validates and persists an equipment photo. In production it goes to the
- * private Supabase bucket under `equipment/`; without Supabase configured it
+ * private Neon Object Storage bucket under `equipment/`; without storage configured it
  * fails loudly in production and falls back to public/uploads in development.
  */
 export async function saveEquipmentPhoto(file: File): Promise<string> {
@@ -52,7 +52,7 @@ export async function saveEquipmentPhoto(file: File): Promise<string> {
 
   if (process.env.NODE_ENV === "production") {
     throw new Error(
-      "Armazenamento de imagens não configurado. Defina SUPABASE_URL e SUPABASE_SECRET_KEY antes de operar em produção.",
+      "Armazenamento de imagens não configurado. Defina as variáveis AWS_* do Neon Object Storage antes de operar em produção.",
     );
   }
 

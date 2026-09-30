@@ -4,8 +4,8 @@ import { ImageOff } from "lucide-react";
 
 /**
  * Equipment photo for both the admin area and the public QR page. Signed
- * Supabase URLs are external to the Next.js origin, so they skip the image
- * optimizer (same approach as ForkliftMedia).
+ * storage URLs are external to the Next.js origin, so they skip the image
+ * optimizer.
  */
 export function EquipmentPhoto({
   src,
