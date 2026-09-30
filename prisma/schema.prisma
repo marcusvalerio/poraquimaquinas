@@ -1,0 +1,37 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+/// Single administrative account (created by the seed). No roles: every
+/// user in this table has full access to the admin area.
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+}
+
+/// qrIdentifier is the only value exposed in the public URL
+/// (/equipamento/{qrIdentifier}); codigoSap stays a business identifier so it
+/// can change without reprinting the QR Code.
+model Equipment {
+  id                String   @id @default(cuid())
+  photoUrl          String?
+  conjunto          String
+  subconjunto       String
+  linha             String
+  equipamento       String
+  codigoSap         String   @unique
+  descricaoTecnica  String
+  funcaoSubconjunto String
+  qrIdentifier      String   @unique @default(uuid())
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
