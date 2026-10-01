@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
+import { AUTH_ENABLED } from "@/lib/app";
 import { db } from "@/lib/db";
 import { getPublicEquipmentUrl, renderQrPng, renderQrSvg } from "@/lib/equipment";
 
@@ -9,9 +10,11 @@ function safeFilename(value: string) {
 
 /** QR Code image (PNG or SVG) for printing/downloading. Admin only. */
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
-  const session = await auth();
-  if (!session?.user?.id) {
-    return new NextResponse("Não autorizado.", { status: 401 });
+  if (AUTH_ENABLED) {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return new NextResponse("Não autorizado.", { status: 401 });
+    }
   }
 
   const { id } = await params;
