@@ -1,7 +1,10 @@
+import { redirect } from "next/navigation";
 import { requireAdmin } from "@/lib/actions/admin-guard";
+import { AUTH_ENABLED } from "@/lib/app";
 import { ChangePasswordForm } from "@/components/admin/ChangePasswordForm";
 
 export default async function ContaPage() {
+  if (!AUTH_ENABLED) redirect("/admin/equipamentos");
   const session = await requireAdmin();
 
   return (

@@ -1,6 +1,7 @@
 import NextAuth from "next-auth";
 import { NextResponse } from "next/server";
 import { authConfig } from "@/lib/auth.config";
+import { AUTH_ENABLED } from "@/lib/app";
 
 // Runs on the default (Edge) middleware runtime: it only verifies the JWT
 // cookie, so it uses the edge-safe config without Prisma/bcrypt. Every admin
@@ -9,7 +10,7 @@ const { auth } = NextAuth(authConfig);
 
 // Only the admin area is protected; /equipamento/{qr} stays public.
 export default auth((req) => {
-  if (!req.auth) {
+  if (AUTH_ENABLED && !req.auth) {
     const loginUrl = new URL("/login", req.nextUrl);
     loginUrl.searchParams.set("callbackUrl", req.nextUrl.pathname);
     return NextResponse.redirect(loginUrl);

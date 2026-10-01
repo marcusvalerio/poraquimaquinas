@@ -1,7 +1,9 @@
 import { LoginForm } from "@/components/LoginForm";
-import { APP_NAME } from "@/lib/app";
+import { redirect } from "next/navigation";
+import { APP_NAME, AUTH_ENABLED } from "@/lib/app";
 
 export default function LoginPage() {
+  if (!AUTH_ENABLED) redirect("/admin/equipamentos");
   return (
     <main className="flex min-h-screen items-center justify-center bg-black px-6 text-white">
       <div className="w-full max-w-sm">
